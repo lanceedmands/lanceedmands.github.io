@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Lance Edmands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080808;
+    --surface: #101010;
+    --border: rgba(255,255,255,0.07);
+    --text: #edeae2;
+    --muted: rgba(237,234,226,0.38);
+    --accent: #b89a6a;
+    --font: 'Libre Franklin', 'Franklin Gothic Medium', 'Franklin Gothic', 'ITC Franklin Gothic', Arial Narrow, sans-serif;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+  }
+
+  /* ── Header (shared) ── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.75rem;
+    background: rgba(8,8,8,0.94);
+    border-bottom: 0.5px solid var(--border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .site-name {
+    font-family: var(--font);
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .site-role {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.58rem;
+    font-weight: 400;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  nav.filter-bar { display: flex; align-items: center; }
+  .nav-link {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: var(--font);
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0.9rem; right: 0.9rem;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.22s ease;
+    transform-origin: left;
+  }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.active { color: var(--text); }
+  .nav-link.active::after { transform: scaleX(1); }
+
+  /* ── About page layout ── */
+  main {
+    padding-top: 54px;
+    min-height: calc(100vh - 54px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: 1;
+    min-height: calc(100vh - 54px);
+  }
+  @media (max-width: 720px) {
+    .about-grid { grid-template-columns: 1fr; min-height: auto; }
+  }
+
+  /* Photo column */
+  .about-photo-col {
+    position: relative;
+    overflow: hidden;
+    min-height: 60vw;
+  }
+  @media (max-width: 720px) { .about-photo-col { min-height: 65vw; } }
+
+  .about-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    filter: grayscale(18%) contrast(1.04);
+  }
+  .about-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 60%, rgba(8,8,8,0.45) 100%);
+  }
+  @media (max-width: 720px) {
+    .about-photo-overlay {
+      background: linear-gradient(to bottom, transparent 70%, rgba(8,8,8,0.5) 100%);
+    }
+  }
+
+  /* Text column */
+  .about-text-col {
+    padding: 4.5rem 3.5rem 3rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 0.5px solid var(--border);
+    max-width: 680px;
+  }
+  @media (max-width: 960px) { .about-text-col { padding: 3.5rem 2.5rem; } }
+  @media (max-width: 720px) {
+    .about-text-col {
+      padding: 2.5rem 1.75rem 3rem;
+      border-left: none;
+      border-top: 0.5px solid var(--border);
+    }
+  }
+
+  .about-name {
+    font-family: var(--font);
+    font-weight: 600;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1.05;
+    margin-bottom: 0.35rem;
+  }
+
+  .about-role {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+
+  .about-divider {
+    width: 2.5rem;
+    height: 0.5px;
+    background: var(--accent);
+    margin-bottom: 2.2rem;
+    opacity: 0.7;
+  }
+
+  .about-bio {
+    font-size: 0.88rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(237,234,226,0.75);
+    letter-spacing: 0.01em;
+    margin-bottom: 2.5rem;
+  }
+
+  .about-bio strong {
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.04em;
+  }
+
+  .about-bio em {
+    font-style: italic;
+    color: rgba(237,234,226,0.85);
+  }
+
+  /* Contact */
+  .about-contact {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .about-email {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(184,154,106,0.45);
+    padding-bottom: 0.1rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .about-email:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .about-social {
+    font-size: 0.58rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .about-social:hover { color: var(--text); }
+
+  /* ── Footer ── */
+  footer {
+    padding: 1.4rem 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 0.5px solid var(--border);
+  }
+  .footer-name {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer-links { display: flex; gap: 1.25rem; }
+  .footer-links a {
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="site-name">Lance Edmands</a>
+  <span class="site-role">Writer &thinsp;·&thinsp; Director &thinsp;·&thinsp; Editor</span>
+  <nav class="filter-bar" aria-label="Main navigation">
+    <a href="index.html" class="nav-link">Films</a>
+    <a href="index.html?cat=commercials" class="nav-link">Commercials</a>
+    <a href="index.html?cat=editing" class="nav-link">Editing</a>
+    <a href="about.html" class="nav-link active">About</a>
+  </nav>
+</header>
+
+<main>
+  <div class="about-grid">
+
+    <!-- Photo — save DSC04885_2.jpg to your server and update this src -->
+    <div class="about-photo-col">
+      <img
+        class="about-photo"
+        src="images/about.jpg"
+        alt="Lance Edmands">
+      <div class="about-photo-overlay"></div>
+    </div>
+
+    <!-- Text -->
+    <div class="about-text-col">
+      <h1 class="about-name">Lance<br>Edmands</h1>
+      <p class="about-role">Writer &thinsp;·&thinsp; Director &thinsp;·&thinsp; Editor</p>
+      <div class="about-divider"></div>
+
+      <p class="about-bio">
+        Lance Edmands is a writer, director, and editor from Brooklyn, born and raised on the coast of Maine. He graduated from <strong>NYU Tisch School of the Arts</strong>. His work has been featured at the Sundance, Tribeca, SXSW, Berlin, and New York Film Festivals.
+      </p>
+      <p class="about-bio">
+        His debut feature as writer/director, <em>Bluebird</em>, was invited to the <strong>Sundance Institute Screenwriters and Directors Labs</strong> and received grants from Cinereach, the Richard Vague/Chris Columbus Production Fund, and the San Francisco Film Society. Starring John Slattery, Amy Morton, Adam Driver, Emily Meade, and Louisa Krause, <em>Bluebird</em> premiered at the <strong>Tribeca Film Festival</strong> and was released theatrically by Factory 25 and Sundance Artist Services. Salon called it "a delicate and affecting drama with grace notes of mystery and redemption," and it was named a <strong>NY Times Critics Pick.</strong>
+      </p>
+      <p class="about-bio">
+        His first feature as editor, Lena Dunham's <em>Tiny Furniture</em>, won the <strong>Grand Jury Prize at SXSW</strong> and was released by IFC and the Criterion Collection. He also directs and edits commercials, including acclaimed spots for Ford, Google, and Cadillac, and was featured in the <strong>SHOOT New Director's Showcase</strong> for his work on Chevy. His three most recent shorts — <em>Strays</em>, <em>Whiteout</em>, and <em>The Seeker</em> — were all <strong>Vimeo Staff Picks</strong>. He is currently in development on his second narrative feature.
+      </p>
+
+      <div class="about-contact">
+        <a href="mailto:info@lanceedmands.com" class="about-email">info@lanceedmands.com</a>
+        <a href="https://www.instagram.com/lanceedmands" target="_blank" rel="noopener" class="about-social">Instagram</a>
+        <a href="https://vimeo.com/lanceedmands" target="_blank" rel="noopener" class="about-social">Vimeo</a>
+      </div>
+    </div>
+
+
+  </div>
+</main>
+
+<footer>
+  <span class="footer-name">Lance Edmands</span>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/lanceedmands" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://vimeo.com/lanceedmands" target="_blank" rel="noopener">Vimeo</a>
+    <a href="index.html">Work</a>
+  </div>
+</footer>
+
+</body>
+</html>
