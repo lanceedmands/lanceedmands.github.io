@@ -43,6 +43,15 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
+  @media (max-width: 600px) {
+    header {
+      height: auto;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.7rem 1rem 0;
+      gap: 0;
+    }
+  }
   .site-name {
     font-family: var(--font);
     font-weight: 600;
@@ -54,6 +63,9 @@
     flex-shrink: 0;
   }
   nav.filter-bar { display: flex; align-items: center; gap: 0; }
+  @media (max-width: 600px) {
+    nav.filter-bar { justify-content: center; flex-wrap: wrap; }
+  }
   .filter-btn {
     background: none;
     border: none;
@@ -71,6 +83,9 @@
     text-decoration: none;
     display: inline-block;
   }
+  @media (max-width: 600px) {
+    .filter-btn { font-size: 0.68rem; padding: 0.4rem 0.6rem; }
+  }
   .filter-btn::after {
     content: '';
     position: absolute;
@@ -86,6 +101,7 @@
   .filter-btn.active::after { transform: scaleX(1); }
 
   main { padding-top: 54px; }
+  @media (max-width: 600px) { main { padding-top: 90px; } }
 
   .grid {
     display: grid;
