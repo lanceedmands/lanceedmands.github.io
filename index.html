@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.ico">
 <title>Lance Edmands — Writer / Director / Editor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
@@ -16,7 +17,7 @@
     --text: #edeae2;
     --muted: rgba(237,234,226,0.38);
     --accent: #b89a6a;
-    --gap: 2px;
+    --gap: 8px;
     --font: 'Libre Franklin', 'Franklin Gothic Medium', 'Franklin Gothic', 'ITC Franklin Gothic', Arial Narrow, sans-serif;
   }
 
@@ -45,24 +46,12 @@
   .site-name {
     font-family: var(--font);
     font-weight: 600;
-    font-size: 0.82rem;
+    font-size: 1.03rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--text);
     text-decoration: none;
     flex-shrink: 0;
-  }
-  .site-role {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.58rem;
-    font-weight: 400;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--muted);
-    white-space: nowrap;
-    pointer-events: none;
   }
   nav.filter-bar { display: flex; align-items: center; gap: 0; }
   .filter-btn {
@@ -70,7 +59,7 @@
     border: none;
     color: var(--muted);
     font-family: var(--font);
-    font-size: 0.62rem;
+    font-size: 0.78rem;
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -298,7 +287,6 @@
 
 <header>
   <a href="index.html" class="site-name">Lance Edmands</a>
-  <span class="site-role">Writer &thinsp;·&thinsp; Director &thinsp;·&thinsp; Editor</span>
   <nav class="filter-bar" aria-label="Filter by category">
     <button class="filter-btn active" data-cat="all">All</button>
     <button class="filter-btn" data-cat="films">Films</button>
@@ -350,7 +338,7 @@
     </div>
 
     <div class="tile" data-cat="films" data-vimeo="372928927"
-         data-title="Whiteout" data-label="Films" data-meta="2019 · Narratuve Short">
+         data-title="Whiteout" data-label="Films" data-meta="2019 · Narrative Short">
 <img class="tile-thumb" src="thumbnails/whiteout.jpg" alt="Whiteout">
       <div class="play-icon" aria-hidden="true"></div>
       <div class="tile-overlay">
@@ -407,8 +395,8 @@
       </div>
     </div>
 
-    <div class="tile" data-cat="commercials" data-vimeo="291409021"
-         data-title="Philips" data-label="Commercials" data-meta="Pheonix Children's Hospital">
+   <div class="tile" data-cat="commercials" data-vimeo="291409021"
+         data-title="Phoenix Children's Hospital" data-label="Commercials" data-meta="Philips">
 <img class="tile-thumb" src="thumbnails/pheonixchildrens.jpg" alt="Pheonix Children's Hospital">
       <div class="play-icon" aria-hidden="true"></div>
       <div class="tile-overlay">
@@ -419,7 +407,7 @@
     </div>
 
    <div class="tile" data-cat="commercials" data-vimeo="298060324"
-         data-title="Philips" data-label="Commercials" data-meta="3M">
+         data-title="3M" data-label="Commercials" data-meta="Thermal Imaging">
 <img class="tile-thumb" src="thumbnails/3M.jpg" alt="3M">
       <div class="play-icon" aria-hidden="true"></div>
       <div class="tile-overlay">
@@ -430,7 +418,7 @@
     </div>
 
     <div class="tile" data-cat="commercials" data-vimeo="195519089"
-         data-title="Philips" data-label="Commercials" data-meta="US Cellular">
+         data-title="US Cellular" data-label="Commercials" data-meta="Most Valuable Coach">
 <img class="tile-thumb" src="thumbnails/uscellular.jpg" alt="Most Valuable Coach">
       <div class="play-icon" aria-hidden="true"></div>
       <div class="tile-overlay">
@@ -686,7 +674,6 @@
   <div class="footer-links">
     <a href="https://www.instagram.com/lanceedmands" target="_blank" rel="noopener">Instagram</a>
     <a href="https://vimeo.com/lanceedmands" target="_blank" rel="noopener">Vimeo</a>
-    <a href="about.html">About</a>
   </div>
 </footer>
 
@@ -714,6 +701,17 @@
       if (!cat) return;
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+
+      if (cat === 'all') {
+        const grid = document.getElementById('grid');
+        const tileArray = Array.from(tiles);
+        for (let i = tileArray.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          grid.insertBefore(tileArray[j], tileArray[i]);
+          [tileArray[i], tileArray[j]] = [tileArray[j], tileArray[i]];
+        }
+      }
+
       let visible = 0;
       tiles.forEach(tile => {
         const show = cat === 'all' || tile.dataset.cat === cat;
