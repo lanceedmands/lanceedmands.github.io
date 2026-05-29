@@ -17,7 +17,7 @@
     --text: #edeae2;
     --muted: rgba(237,234,226,0.38);
     --accent: #b89a6a;
-    --gap: 8px;
+    --gap: 10px;
     --font: 'Libre Franklin', 'Franklin Gothic Medium', 'Franklin Gothic', 'ITC Franklin Gothic', Arial Narrow, sans-serif;
   }
 
@@ -694,6 +694,10 @@
   const buttons = document.querySelectorAll('button.filter-btn');
   const tiles   = document.querySelectorAll('.tile[data-cat]');
   const empty   = document.getElementById('empty');
+  const grid    = document.getElementById('grid');
+
+  // Save original order on page load
+  const originalOrder = Array.from(tiles);
 
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -703,13 +707,16 @@
       btn.classList.add('active');
 
       if (cat === 'all') {
-        const grid = document.getElementById('grid');
-        const tileArray = Array.from(tiles);
-        for (let i = tileArray.length - 1; i > 0; i--) {
+        // Shuffle tiles randomly in the DOM
+        const shuffled = Array.from(tiles);
+        for (let i = shuffled.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
-          grid.insertBefore(tileArray[j], tileArray[i]);
-          [tileArray[i], tileArray[j]] = [tileArray[j], tileArray[i]];
+          grid.insertBefore(shuffled[j], shuffled[i]);
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
+      } else {
+        // Restore original order before filtering
+        originalOrder.forEach(tile => grid.insertBefore(tile, grid.querySelector('.empty-state')));
       }
 
       let visible = 0;
